@@ -1,5 +1,5 @@
 name: InfinityExpansionAutomation
-version: '${project.version}'
+version: '${version}'
 main: me.ddggdd135.infinityexpansionautomation.InfinityExpansionAutomation
 api-version: '1.16'
 depend: [Slimefun, InfinityExpansion, GuguSlimefunLib]

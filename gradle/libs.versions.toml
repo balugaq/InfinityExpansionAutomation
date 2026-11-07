@@ -1,0 +1,30 @@
+# Gradle Version Catalog
+# 依赖集中管理：build.gradle.kts 里用 `libs.xxx` 引用。
+# alias 一律 kebab-case，Kotlin DSL 访问时自动转驼峰（如 `paper-api` → `libs.paper.api`）。
+
+[versions]
+# Core
+# 本项目目标 api-version 1.16，1.16.5 的 paper-api 只存在于旧坐标 com.destroystokyo.paper:paper-api
+paper-api = "1.16.5-R0.1-SNAPSHOT"
+# 原 pom 为 2024.3，2026-11-07 主人决策升级到 2025.1 并做 API 适配
+slimefun4 = "2025.1"
+
+# Supported Plugins
+# 原 pom 为 bebf0bd0f9 / c5f1d405d4（Slimefun4 2024.3 时代），升级为与 SF 2025.1 配套的版本
+infinity-expansion = "3c5db3650a"
+gugu-slimefun-lib = "45627c6f8e"
+
+# Plugins
+shadow = "9.6.1"
+
+[libraries]
+# Core
+paper-api = { module = "com.destroystokyo.paper:paper-api", version.ref = "paper-api" }
+slimefun4 = { module = "com.github.SlimefunGuguProject:Slimefun4", version.ref = "slimefun4" }
+
+# Supported Plugins
+infinity-expansion = { module = "com.github.SlimefunGuguProject:InfinityExpansion", version.ref = "infinity-expansion" }
+gugu-slimefun-lib = { module = "com.github.TimetownDev:GuguSlimefunLib", version.ref = "gugu-slimefun-lib" }
+
+[plugins]
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

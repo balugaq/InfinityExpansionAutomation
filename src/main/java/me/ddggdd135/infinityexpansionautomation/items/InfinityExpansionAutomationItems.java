@@ -5,12 +5,13 @@ import static io.github.mooy1.infinityexpansion.items.blocks.Blocks.INFINITY_FOR
 import static io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_AUTO_CRAFTER;
 import static io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.VANILLA_AUTO_CRAFTER;
 
+import io.github.mooy1.infinityexpansion.infinitylib.machines.MachineRecipeType;
 import io.github.mooy1.infinityexpansion.items.blocks.InfinityWorkbench;
-import io.github.mooy1.infinityexpansion.items.mobdata.MobDataInfuser;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
+import java.lang.reflect.Field;
 import me.ddggdd135.guguslimefunlib.items.AdvancedCustomItemStack;
 import me.ddggdd135.infinityexpansionautomation.slimefun.InfinityCrafter;
 import org.bukkit.Material;
@@ -54,8 +55,20 @@ public class InfinityExpansionAutomationItems {
                             VANILLA_AUTO_CRAFTER, VOID_CAPACITOR, VANILLA_AUTO_CRAFTER,
                             INFINITY_FORGE, ENHANCED_AUTO_CRAFTER, INFINITY_FORGE
                         },
-                        MobDataInfuser.TYPE)
+                        mobDataInfuserType())
                 .setEnergyConsumption(500000)
                 .register(slimefunAddon);
+    }
+
+    // 新版 InfinityExpansion 把 MobDataInfuser.TYPE 改为包私有，配方注册在原实例上，只能反射取出
+    private static MachineRecipeType mobDataInfuserType() {
+        try {
+            Field field = Class.forName("io.github.mooy1.infinityexpansion.items.mobdata.MobDataInfuser")
+                    .getDeclaredField("TYPE");
+            field.setAccessible(true);
+            return (MachineRecipeType) field.get(null);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Failed to access MobDataInfuser.TYPE", e);
+        }
     }
 }
